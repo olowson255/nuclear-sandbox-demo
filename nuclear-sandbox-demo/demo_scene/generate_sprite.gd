@@ -2,13 +2,12 @@ extends Sprite2D
 
 const TEX_WIDTH := 160
 const TEX_HEIGHT := 90
-const UPDATE_FPS := 40.0
+const UPDATE_FPS := 60.0
 const BRUSH_RADIUS := 3
 
 class Molecule:
 	var pixel_color: Color = Color.BLUE
 	var horizontal_direction: int = 1
-	var frozen: bool = false
 	var last_moved_tick: int = -1
 	
 	func _init() -> void:
@@ -118,7 +117,7 @@ func simulation_step() -> void:
 				move_molecule(m, x, y, x, y + 1)
 				continue
 
-			# 2. Angle: one row down, one cell in the molecule's direction
+			# 2. Angle
 			if is_empty(x + m.horizontal_direction, y + 1):
 				move_molecule(m, x, y, x + m.horizontal_direction, y + 1)
 				continue
@@ -130,10 +129,6 @@ func simulation_step() -> void:
 				
 			# 3. Turn around since blocked
 			m.horizontal_direction = -m.horizontal_direction
-			
-			# 4. Freeze if all paths blocked
-			#if not is_empty(x, y + 1) and not is_empty(x - 1, y) and not is_empty(x + 1, y):
-				#m.frozen = true
 
 func render() -> void:
 	var i := 0
